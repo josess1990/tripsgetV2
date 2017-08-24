@@ -31,53 +31,55 @@ public class AtmParser {
 			JSONObject jsonResponse = new JSONObject();
 
 			try {
-				System.out.println("opening: "+atmEndpoint );
+				System.out.println("opening: " + atmEndpoint);
 				jsonResponse = JsonReader.readJsonFromUrl(atmEndpoint);
-			
-			JSONArray atmArr = jsonResponse.getJSONArray("data");
-			for (Object atmElem : atmArr) {
-				JSONObject atm = (JSONObject) atmElem;
 
-				// Currency
-				for (Object currency : atm.getJSONArray("Currency")) {
-					if (!currenciesArr.contains(currency.toString())) {
-						currenciesArr.add(currency.toString());
-					}
-				}
-				
-				//Language
-				for (Object languages : atm.getJSONArray("SupportedLanguages")) {
-					if (!languagesArr.contains(languages.toString().toUpperCase())) {
-						languagesArr.add(languages.toString().toUpperCase());
-					}
-				}
-				
-				//ATM services
-				for (Object service : atm.getJSONArray("ATMServices")) {
-					if (!atmServicesArr.contains(service.toString())) {
-						atmServicesArr.add(service.toString());
-					}
-				}
+				JSONArray atmArr = jsonResponse.getJSONArray("data");
+				for (Object atmElem : atmArr) {
+					JSONObject atm = (JSONObject) atmElem;
 
-			}
+					// Currency
+					for (Object currency : atm.getJSONArray("Currency")) {
+						if (!currenciesArr.contains(currency.toString())) {
+							currenciesArr.add(currency.toString());
+						}
+					}
+
+					// Language
+					for (Object languages : atm.getJSONArray("SupportedLanguages")) {
+						if (!languagesArr.contains(languages.toString().toUpperCase())) {
+							languagesArr.add(languages.toString().toUpperCase());
+						}
+					}
+
+					// ATM services
+					for (Object service : atm.getJSONArray("ATMServices")) {
+						if (!atmServicesArr.contains(service.toString())) {
+							atmServicesArr.add(service.toString());
+						}
+					}
+					Atm atmObj = new Atm();
+					atmObj.bank_name = atm.getJSONObject("Organisation").getJSONObject("ParentOrganisation").getJSONObject("OrganisationName").getString("LegalName");
+					atmObj.id = atm.getString("ATMID");
+					
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-			
-		for(String currency:currenciesArr) {
+
+		for (String currency : currenciesArr) {
 			System.out.println(currency);
 		}
-		
-		for(String language:languagesArr) {
+
+		for (String language : languagesArr) {
 			System.out.println(language);
 		}
-		
-		for(String service:atmServicesArr) {
+
+		for (String service : atmServicesArr) {
 			System.out.println(service);
 		}
-		
-		
+
 	}
 
 }
