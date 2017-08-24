@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.openbanking.util.DatabaseConnector;
+import com.openbanking.util.PgsqlConnection;
 import com.openbanking.util.JsonReader;
 import com.openbanking.AtmParser;
 
@@ -21,7 +21,6 @@ public class App
     	//AtmParser parser = new AtmParser();		
         //parser.gatherStaticValues();
     	//System.out.println(parser.getBankAtms().size());
-    	DatabaseConnector connection = new DatabaseConnector();
-    	connection.connect();
+    	PgsqlConnection connection = new PgsqlConnection();
     }
 }
